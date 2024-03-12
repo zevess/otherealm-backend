@@ -1,42 +1,43 @@
-import CommentPost from '../models/Comment.js'
+import CommentModel from '../models/Comment.js'
 
-export const createComment = async (req, res) => {
+export const createComment = async(req, res) =>{
     try {
-        const postId = req.params.id;
+        const doc = new CommentModel({
+            text: req.body.text,
+            user: req.userId,
+            postId: req.body.postId
+        })
 
-        const existingPost = await CommentPost.findOne(postId)
-
-        if (existingPost) {
-            existingPost.comments.push({
-                user: req.body.user,
-                text: req.body.text
-            })
-            await existingPost.save();
-            res.json({
-                message: 'коммент успешно добавлен'
-            })
-        } else {
-            const newCommentPost = new CommentPost({
-                postId,
-                comments: [
-                    {
-                        user: req.body.user,
-                        text: req.body.text
-                    }
-                ]
-            })
-            await newCommentPost.save();
-            res.json({
-                message: 'коммент успешно добавлен'
-            })
-        }
-
-
+        const comment = await doc.save();
+        res.json(comment)
 
     } catch (err) {
         console.log(err);
         res.status(500).json({
-            message: 'произошла ошибка при добавлении коммента'
+            message: 'не удалось создать комментарий'
+        })
+    }
+}
+
+export const getComments = async(req,res) =>{
+    try{
+        const postId = req.params.postId;
+        const comments = await CommentModel.find({
+            postId: postId
+        }).populate('user').exec();
+
+        if (comments.length === 0){
+            return res.status(404).json({
+                message: "комментарии не найдены"
+            })
+        }
+
+        res.json(comments);
+
+    } catch(err){
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось получить комментарии'
         })
     }
 }

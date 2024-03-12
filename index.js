@@ -1,9 +1,9 @@
 import express from 'express'
 import mongoose from 'mongoose';
 import cors from 'cors'
-import { commentCreateValidation, loginValidation, registerValidation } from './validations.js';
+import { commentCreateValidation, discussCreateValidation, loginValidation, registerValidation } from './validations.js';
 import { checkAuth, handleValidationErrors } from './utils/index.js';
-import { CommentContoller, UserController } from './controllers/index.js';
+import { CommentContoller, DicsuccController, UserController } from './controllers/index.js';
 
 mongoose.connect('mongodb+srv://admin:mTicEooXH4YI8fbG@otherealmdbcluster.inhudla.mongodb.net/data?retryWrites=true&w=majority&appName=otherealmDBCluster')
     .then(() => console.log("db ok"))
@@ -24,6 +24,11 @@ app.post('/auth/register', registerValidation, handleValidationErrors, UserContr
 app.get('/auth/me', checkAuth, UserController.getMe);
 
 app.post('/comments', checkAuth, commentCreateValidation, handleValidationErrors, CommentContoller.createComment)
+app.get('/comments/:postId', CommentContoller.getComments)
+
+app.post('/discuss', checkAuth, discussCreateValidation, handleValidationErrors, DicsuccController.createDiscuss);
+app.get('/discuss/:postId/', DicsuccController.getDiscuss)
+app.get('/discuss/:id', DicsuccController.getOneDiscuss)
 
 app.listen(4444, (err) => {
     if (err) {

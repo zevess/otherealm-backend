@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const CommentSchema = new mongoose.Schema({
+const FavouriteSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
@@ -18,4 +18,4 @@ const CommentSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-export default mongoose.model('Post', CommentSchema);
+export default mongoose.model('Favourite', FavouriteSchema);
