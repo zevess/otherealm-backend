@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors'
 import { commentCreateValidation, discussCreateValidation, loginValidation, registerValidation } from './validations.js';
 import { checkAuth, handleValidationErrors } from './utils/index.js';
-import { CommentContoller, DicsuccController, UserController } from './controllers/index.js';
+import { CommentContoller, DiscuccController, FavouriteController, UserController } from './controllers/index.js';
 
 mongoose.connect('mongodb+srv://admin:mTicEooXH4YI8fbG@otherealmdbcluster.inhudla.mongodb.net/data?retryWrites=true&w=majority&appName=otherealmDBCluster')
     .then(() => console.log("db ok"))
@@ -26,9 +26,13 @@ app.get('/auth/me', checkAuth, UserController.getMe);
 app.post('/comments', checkAuth, commentCreateValidation, handleValidationErrors, CommentContoller.createComment)
 app.get('/comments/:postId', CommentContoller.getComments)
 
-app.post('/discuss', checkAuth, discussCreateValidation, handleValidationErrors, DicsuccController.createDiscuss);
-app.get('/discuss/:postId/', DicsuccController.getDiscuss)
-app.get('/discuss/:id', DicsuccController.getOneDiscuss)
+app.post('/discuss', checkAuth, discussCreateValidation, handleValidationErrors, DiscuccController.createDiscuss);
+app.get('/discuss/:postId/', DiscuccController.getDiscuss)
+app.get('/discuss/:id', DiscuccController.getOneDiscuss)
+
+app.post('/favourite', checkAuth, FavouriteController.createFavourite);
+app.get('/favourite/:userId', FavouriteController.getFavourites);
+app.patch('/favourite/:id', checkAuth, FavouriteController.addItemToFavourite);
 
 app.listen(4444, (err) => {
     if (err) {

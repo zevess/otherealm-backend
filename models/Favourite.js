@@ -6,16 +6,32 @@ const FavouriteSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    postId: {
+    title: {
         type: String,
         required: true
     },
-    text: {
-        type: String,
-        required: true
-    }
+    items: [{
+        itemId: {
+            type: String,
+            required: true
+        },
+        itemTitle: {
+            type: String,
+            required: true
+        },
+        itemBackgroundImage: {
+            type: String,
+            required: true
+        },
+        itemType: {
+            type: String,
+            required: true
+        }
+    }]
 }, {
     timestamps: true,
 })
+
+
 
 export default mongoose.model('Favourite', FavouriteSchema);
