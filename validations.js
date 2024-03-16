@@ -8,7 +8,8 @@ export const loginValidation = [
 export const registerValidation = [
     body('email', 'неверный формат почты').isEmail(),
     body('password', 'пароль должен быть минимум 5 символов').isLength({min: 5}),
-    body('name', 'укажите никнейм').isLength({min: 3}),
+    body('name', 'имя').isLength({min: 4}),
+    body('nick', 'укажите никнейм').isLength({min: 4}),
     body('avatarUrl', 'неверная ссылка').optional().isURL(),
 ]
 
@@ -22,4 +23,8 @@ export const discussCreateValidation = [
     body('postId', 'введите id страницы').isLength({min: 5}),
     body('text', 'введите текст обсуждения').isLength({min: 10}).isString(),
     body('imageUrl', 'неверная ссылка на изображение').optional().isString()
+]
+
+export const favouriteCreateValidation = [
+    body('title', 'название раздела должно быть уникальным!').isLength({min: 3}).isString()
 ]

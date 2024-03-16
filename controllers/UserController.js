@@ -10,6 +10,7 @@ export const register = async(req, res) => {
 
         const doc = new UserModel({
             name: req.body.name,
+            nick: req.body.nick,
             email: req.body.email,
             passwordHash: hash,
             avatarUrl: req.body.avatarUrl,
@@ -100,3 +101,38 @@ export const getMe = async(req, res) =>{
         })
     }
 }
+
+export const getUser = async(req, res) => {
+    try {
+        const nick = req.params.nick;
+        const user = await UserModel.findOne({
+            nick: nick
+        }).exec();
+
+        if (!user) {
+            return res.status(404).json({
+                message: 'пользователь не найден'
+            });
+        }
+
+        res.json(user);
+    } catch(err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'нет доступа'
+        });
+    }
+}
+
+// const postId = req.params.postId;
+//         const discuss = await DiscussModel.find({
+//             postId: postId
+//         }).exec();
+
+//         if (discuss.length === 0) {
+//             return res.status(404).json({
+//                 message: "обсуждения не найдены"
+//             })
+//         }
+
+//         res.json(discuss);

@@ -1,7 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose';
 import cors from 'cors'
-import { commentCreateValidation, discussCreateValidation, loginValidation, registerValidation } from './validations.js';
+import { commentCreateValidation, discussCreateValidation, favouriteCreateValidation, loginValidation, registerValidation } from './validations.js';
 import { checkAuth, handleValidationErrors } from './utils/index.js';
 import { CommentContoller, DiscuccController, FavouriteController, UserController } from './controllers/index.js';
 
@@ -22,6 +22,7 @@ app.get('/', (req, res) => {
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login)
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register)
 app.get('/auth/me', checkAuth, UserController.getMe);
+app.get('/auth/getUser/:nick', UserController.getUser);
 
 app.post('/comments', checkAuth, commentCreateValidation, handleValidationErrors, CommentContoller.createComment)
 app.get('/comments/:postId', CommentContoller.getComments)
@@ -32,8 +33,8 @@ app.get('/discuss/:id', DiscuccController.getOneDiscuss)
 
 app.post('/favourite', checkAuth, FavouriteController.createFavourite);
 app.get('/favourite/:userId', FavouriteController.getFavourites);
-app.patch('/favourite/:id', checkAuth, FavouriteController.addItemToFavourite);
-
+app.patch('/favourite/add/:id', checkAuth, favouriteCreateValidation, FavouriteController.addItemToFavourite);
+app.patch('/favourite/remove/:id', checkAuth, FavouriteController.removeItemFromFavourite);
 app.listen(4444, (err) => {
     if (err) {
         return console.log(err);

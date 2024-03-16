@@ -42,6 +42,29 @@ export const addItemToFavourite = async(req, res) =>{
     }
 }
 
+export const removeItemFromFavourite = async(req, res) => {
+    try{
+        const favouriteId = req.params.id
+        const favouriteItems = {
+            itemId: req.body.itemId,
+            itemTitle: req.body.itemTitle,
+            itemBackgroundImage: req.body.itemBackgroundImage,
+            itemType: req.body.itemType
+        }
+
+        const updatedFavourite = await FavouriteModel.findByIdAndUpdate(favouriteId,
+            { $pull: {items: favouriteItems}}, 
+            { new:  true})
+        res.json(updatedFavourite)
+
+    } catch(err){
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось добавить в раздел'
+        })
+    }
+}
+
 export const getFavourites = async(req, res) =>{
     try{
         const userId = req.params.userId;
