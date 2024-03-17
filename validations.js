@@ -20,7 +20,7 @@ export const commentCreateValidation = [
 
 export const discussCreateValidation = [
     body('title', 'введите заголовок обсуждения').isLength({min: 3}).isString(),
-    body('postId', 'введите id страницы').isLength({min: 5}),
+    body('itemId', 'введите id страницы').isLength({min: 5}),
     body('text', 'введите текст обсуждения').isLength({min: 10}).isString(),
     body('imageUrl', 'неверная ссылка на изображение').optional().isString()
 ]

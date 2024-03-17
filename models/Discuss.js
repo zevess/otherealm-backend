@@ -19,7 +19,7 @@ const DiscussSchema = new mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    postId: {
+    itemId: {
         type: String,
         required: true
     },

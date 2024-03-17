@@ -9,7 +9,6 @@ const FavouriteSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
-        unique: true
     },
     items: [{
         itemId: {
@@ -32,7 +31,5 @@ const FavouriteSchema = new mongoose.Schema({
 }, {
     timestamps: true,
 })
-
-
 
 export default mongoose.model('Favourite', FavouriteSchema);

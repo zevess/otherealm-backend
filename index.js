@@ -28,13 +28,17 @@ app.post('/comments', checkAuth, commentCreateValidation, handleValidationErrors
 app.get('/comments/:postId', CommentContoller.getComments)
 
 app.post('/discuss', checkAuth, discussCreateValidation, handleValidationErrors, DiscuccController.createDiscuss);
-app.get('/discuss/:postId/', DiscuccController.getDiscuss)
-app.get('/discuss/:id', DiscuccController.getOneDiscuss)
+app.get('/discuss/:itemId/', DiscuccController.getDiscuss)
+app.get('/discuss/:itemId/:id', DiscuccController.getOneDiscuss)
 
 app.post('/favourite', checkAuth, FavouriteController.createFavourite);
+app.get('/favourite', FavouriteController.getAllFavourites);
+app.post('/favourite/edit/:userId', FavouriteController.updateFavourite);
+app.delete('/favourite/remove/:favId', FavouriteController.removeFavourite);
 app.get('/favourite/:userId', FavouriteController.getFavourites);
-app.patch('/favourite/add/:id', checkAuth, favouriteCreateValidation, FavouriteController.addItemToFavourite);
+app.patch('/favourite/add/:id', checkAuth, FavouriteController.addItemToFavourite);
 app.patch('/favourite/remove/:id', checkAuth, FavouriteController.removeItemFromFavourite);
+
 app.listen(4444, (err) => {
     if (err) {
         return console.log(err);

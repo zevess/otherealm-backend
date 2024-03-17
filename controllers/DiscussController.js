@@ -6,7 +6,7 @@ export const createDiscuss = async (req, res) => {
             title: req.body.title,
             text: req.body.text,
             imageUrl: req.body.imageUrl,
-            postId: req.body.postId,
+            itemId: req.body.itemId,
             user: req.userId
         })
 
@@ -24,10 +24,10 @@ export const createDiscuss = async (req, res) => {
 
 export const getDiscuss = async (req, res) => {
     try {
-        const postId = req.params.postId;
+        const itemId = req.params.itemId;
         const discuss = await DiscussModel.find({
-            postId: postId
-        }).exec();
+            itemId: itemId
+        }).populate('user').exec();
 
         if (discuss.length === 0) {
             return res.status(404).json({
