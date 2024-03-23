@@ -123,16 +123,3 @@ export const getUser = async(req, res) => {
         });
     }
 }
-
-// const postId = req.params.postId;
-//         const discuss = await DiscussModel.find({
-//             postId: postId
-//         }).exec();
-
-//         if (discuss.length === 0) {
-//             return res.status(404).json({
-//                 message: "обсуждения не найдены"
-//             })
-//         }
-
-//         res.json(discuss);

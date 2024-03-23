@@ -1,7 +1,7 @@
 import express from 'express'
 import mongoose from 'mongoose';
 import cors from 'cors'
-import { commentCreateValidation, discussCreateValidation, favouriteCreateValidation, loginValidation, registerValidation } from './validations.js';
+import { commentCreateValidation, discussCreateValidation, loginValidation, registerValidation } from './validations.js';
 import { checkAuth, handleValidationErrors } from './utils/index.js';
 import { CommentContoller, DiscuccController, FavouriteController, UserController } from './controllers/index.js';
 
@@ -17,7 +17,6 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send('hello world');
 })    
-
 
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login)
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register)
