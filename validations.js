@@ -28,3 +28,9 @@ export const discussCreateValidation = [
 export const favouriteCreateValidation = [
     body('title', 'название раздела должно быть уникальным!').isLength({min: 3}).isString()
 ]
+
+export const postCreateValidation = [
+    body('title', 'введите заголовок поста').isLength({min: 5}).isString(),
+    body('text', 'ошибка при вводе текста').optional().isString(),
+    body('imageUrl', 'неверная ссылка на изображение').optional().isString()
+]

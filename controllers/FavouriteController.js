@@ -37,7 +37,7 @@ export const updateFavourite = async (req, res) => {
 
         const existingFavourite = await FavouriteModel.findOne({
             user: userId,
-            title: editTitle,// Exclude the current favorite being updated
+            title: editTitle,
         });
 
         if (existingFavourite) {

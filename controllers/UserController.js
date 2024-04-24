@@ -123,3 +123,47 @@ export const getUser = async(req, res) => {
         });
     }
 }
+
+export const updateAvatar = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        await UserModel.updateOne({
+            _id: userId
+        },
+            {
+                avatarUrl: req.body.avatarUrl,
+            },
+        )
+
+        res.json({
+            success: true
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось обновить профиль'
+        })
+    }
+}
+
+export const updateBackground = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        await UserModel.updateOne({
+            _id: userId
+        },
+            {
+                backgroundUrl: req.body.backgroundUrl,
+            },
+        )
+
+        res.json({
+            success: true
+        })
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось обновить профиль'
+        })
+    }
+}
