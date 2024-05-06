@@ -167,3 +167,49 @@ export const updateBackground = async (req, res) => {
         })
     }
 }
+
+export const followUser = async (req, res) =>{
+    try{
+
+        const userId = req.body.userId;
+        const userToFollowId = req.body.userToFollowId
+
+        const updatedFollows = await UserModel.findByIdAndUpdate(userId, 
+            {
+                $push: {follows: userToFollowId
+                },
+            },
+            {new: true}
+        ) 
+        res.json(updatedFollows)
+
+    } catch(err){
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось подписаться'
+        })
+    }
+}
+
+export const unfollowUser = async (req, res) =>{
+    try{
+
+        const userId = req.body.userId;
+        const userToFollowId = req.body.userToFollowId
+
+        const updatedFollows = await UserModel.findByIdAndUpdate(userId, 
+            {
+                $pull: {follows: userToFollowId
+                },
+            },
+            {new: true}
+        ) 
+        res.json(updatedFollows)
+
+    } catch(err){
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось подписаться'
+        })
+    }
+}

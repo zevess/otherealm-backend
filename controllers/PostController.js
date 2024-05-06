@@ -1,4 +1,5 @@
 import PostModel from '../models/Post.js'
+import UserModel from '../models/User.js'
 
 export const createPost = async (req, res) => {
     try {
@@ -125,5 +126,47 @@ export const deletePost = async (req, res) =>{
             message: 'не удалось удалить пост'
         })
 
+    }
+}
+
+export const getFollowsPosts = async (req, res) => {
+    try {
+        const feedArr = [];
+
+        const userId = req.params.userId;
+
+        const followUserId = await UserModel.findById(userId).populate('follows');
+
+        const promises =  followUserId.follows.map(async(item) => {
+            const userPosts = await PostModel.find({
+                user: item
+            }).populate('user').exec();
+            // res.json(userPosts);
+            feedArr.push(...userPosts);
+        })
+
+        await Promise.all(promises);
+
+        feedArr.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        res.json(feedArr);
+        // console.log(feedArr);
+        
+        
+        // const userPosts = await PostModel.find({
+        //     user: userId
+        // }).populate('user').exec();
+
+        // if (userPosts.length === 0) {
+        //     return res.status(404).json({
+        //         message: "разделы не найдены"
+        //     })
+        // }
+        // res.json(userPosts);
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось получить пост'
+        })
     }
 }
