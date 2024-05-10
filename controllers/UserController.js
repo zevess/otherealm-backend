@@ -2,8 +2,8 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import UserModel from '../models/User.js'
 
-export const register = async(req, res) => {
-    try{
+export const register = async (req, res) => {
+    try {
         const password = req.body.password;
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
@@ -24,14 +24,14 @@ export const register = async(req, res) => {
             expiresIn: '30d'
         })
 
-        const { passwordHash, ...userData} = user._doc
+        const { passwordHash, ...userData } = user._doc
 
         res.json({
             ...userData,
             token
         })
 
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         res.status(500).json({
             message: 'не удалось зарегистрироваться'
@@ -80,11 +80,11 @@ export const login = async (req, res) => {
     }
 }
 
-export const getMe = async(req, res) =>{
-    try{
+export const getMe = async (req, res) => {
+    try {
         const user = await UserModel.findById(req.userId);
 
-        if(!user){
+        if (!user) {
             return res.status(404).json({
                 message: 'пользователь не найден'
             })
@@ -94,7 +94,7 @@ export const getMe = async(req, res) =>{
 
         res.json(userData);
 
-    } catch(err){
+    } catch (err) {
         console.log(err);
         res.status(500).json({
             message: 'нет доступа'
@@ -102,7 +102,7 @@ export const getMe = async(req, res) =>{
     }
 }
 
-export const getUser = async(req, res) => {
+export const getUser = async (req, res) => {
     try {
         const nick = req.params.nick;
         const user = await UserModel.findOne({
@@ -116,7 +116,7 @@ export const getUser = async(req, res) => {
         }
 
         res.json(user);
-    } catch(err) {
+    } catch (err) {
         console.log(err);
         res.status(500).json({
             message: 'нет доступа'
@@ -168,22 +168,23 @@ export const updateBackground = async (req, res) => {
     }
 }
 
-export const followUser = async (req, res) =>{
-    try{
+export const followUser = async (req, res) => {
+    try {
 
         const userId = req.body.userId;
         const userToFollowId = req.body.userToFollowId
 
-        const updatedFollows = await UserModel.findByIdAndUpdate(userId, 
+        const updatedFollows = await UserModel.findByIdAndUpdate(userId,
             {
-                $push: {follows: userToFollowId
+                $push: {
+                    follows: userToFollowId
                 },
             },
-            {new: true}
-        ) 
+            { new: true }
+        )
         res.json(updatedFollows)
 
-    } catch(err){
+    } catch (err) {
         console.log(err);
         res.status(500).json({
             message: 'не удалось подписаться'
@@ -191,25 +192,53 @@ export const followUser = async (req, res) =>{
     }
 }
 
-export const unfollowUser = async (req, res) =>{
-    try{
+export const unfollowUser = async (req, res) => {
+    try {
 
         const userId = req.body.userId;
         const userToFollowId = req.body.userToFollowId
 
-        const updatedFollows = await UserModel.findByIdAndUpdate(userId, 
+        const updatedFollows = await UserModel.findByIdAndUpdate(userId,
             {
-                $pull: {follows: userToFollowId
+                $pull: {
+                    follows: userToFollowId
                 },
             },
-            {new: true}
-        ) 
+            { new: true }
+        )
         res.json(updatedFollows)
 
-    } catch(err){
+    } catch (err) {
         console.log(err);
         res.status(500).json({
             message: 'не удалось подписаться'
         })
     }
+}
+
+export const userSearch = async (req, res) => {
+    try {
+        
+        const name = req.params.name;
+        const foundUsers = await UserModel.find({
+            name: name
+        }).exec()
+
+        if(!foundUsers){
+            return res.status(404).json({
+                message: 'пользователи не найдены'
+            });
+        }
+
+        res.json(foundUsers)
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось найти пользователя'
+        })
+    }
+
+
+
 }

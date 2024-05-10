@@ -35,7 +35,7 @@ app.get('/', (req, res) => {
 app.post('/auth/login', loginValidation, handleValidationErrors, UserController.login)
 app.post('/auth/register', registerValidation, handleValidationErrors, UserController.register)
 app.get('/auth/me', checkAuth, UserController.getMe);
-app.get('/auth/getUser/:nick', UserController.getUser);
+
 
 app.post('/comments', checkAuth, commentCreateValidation, handleValidationErrors, CommentContoller.createComment)
 app.get('/comments/:postId', CommentContoller.getComments)
@@ -50,6 +50,8 @@ app.patch('/profile/avatar/:userId', checkAuth, UserController.updateAvatar)
 app.patch('/profile/background/:userId', checkAuth, UserController.updateBackground)
 app.patch('/profile/follow', checkAuth, UserController.followUser);
 app.patch('/profile/unfollow', checkAuth, UserController.unfollowUser);
+app.get('/profile/findUsers/:name', checkAuth, UserController.userSearch);
+app.get('/profile/getUser/:nick', UserController.getUser);
 
 app.get('/posts/feed/:userId', checkAuth, PostController.getFollowsPosts);
 
