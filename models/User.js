@@ -21,9 +21,14 @@ const UserSchema = new mongoose.Schema({
     },
     avatarUrl: String,
     backgroundUrl: String,
-    follows: {
-        type: Array
-    }
+    follows: [
+        {
+            nick: String,
+            name: String,
+            avatarUrl: String,
+            _id: String,
+        }
+    ]
 }, {
     timestamps: true
 })

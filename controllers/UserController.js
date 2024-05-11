@@ -171,13 +171,25 @@ export const updateBackground = async (req, res) => {
 export const followUser = async (req, res) => {
     try {
 
-        const userId = req.body.userId;
-        const userToFollowId = req.body.userToFollowId
+        const userId = req.params.userId;
+        // const userToFollowId = req.body.userToFollowId
+
+        // const updatedFollowUsers = await UserModel.find({
+        //     _id: userToFollowId
+        // })
+
+
+        const follow = {
+            name: req.body.name,
+            nick: req.body.nick,
+            avatarUrl: req.body.avatarUrl,
+            _id: req.body.id
+        }
 
         const updatedFollows = await UserModel.findByIdAndUpdate(userId,
             {
                 $push: {
-                    follows: userToFollowId
+                    follows: follow
                 },
             },
             { new: true }
@@ -195,18 +207,26 @@ export const followUser = async (req, res) => {
 export const unfollowUser = async (req, res) => {
     try {
 
-        const userId = req.body.userId;
-        const userToFollowId = req.body.userToFollowId
+        const userId = req.params.userId;
+        // const userToFollowId = req.body.userToFollowId
+
+        const follow = {
+            name: req.body.name,
+            nick: req.body.nick,
+            avatarUrl: req.body.avatarUrl,
+            _id: req.body.id
+        }
 
         const updatedFollows = await UserModel.findByIdAndUpdate(userId,
             {
                 $pull: {
-                    follows: userToFollowId
+                    follows: follow
                 },
             },
             { new: true }
         )
         res.json(updatedFollows)
+
 
     } catch (err) {
         console.log(err);
@@ -238,7 +258,15 @@ export const userSearch = async (req, res) => {
             message: 'не удалось найти пользователя'
         })
     }
-
-
-
 }
+
+// export const getFollowsUsers = async(req, res) =>{
+//     try{
+
+//     } catch(err){
+//         console.log(err);
+//         res.status(500).json({
+//             message: 'не удалось получить пользователей'
+//         })
+//     }
+// }

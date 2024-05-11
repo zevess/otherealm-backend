@@ -48,8 +48,8 @@ app.post('/upload', checkAuth, uploads.single('image'), (req, res) => {
 
 app.patch('/profile/avatar/:userId', checkAuth, UserController.updateAvatar)
 app.patch('/profile/background/:userId', checkAuth, UserController.updateBackground)
-app.patch('/profile/follow', checkAuth, UserController.followUser);
-app.patch('/profile/unfollow', checkAuth, UserController.unfollowUser);
+app.patch('/profile/follow/:userId', checkAuth, UserController.followUser);
+app.patch('/profile/unfollow/:userId', checkAuth, UserController.unfollowUser);
 app.get('/profile/findUsers/:name', checkAuth, UserController.userSearch);
 app.get('/profile/getUser/:nick', UserController.getUser);
 
