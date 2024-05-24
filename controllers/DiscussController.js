@@ -47,7 +47,7 @@ export const getDiscuss = async (req, res) => {
 
 export const getOneDiscuss = async (req, res) => {
     try {
-        const discussId = req.params.id;
+        const discussId = req.params.discussId;
         const updatedDiscuss = await DiscussModel.findOneAndUpdate({
             _id: discussId
         }, {
@@ -70,6 +70,62 @@ export const getOneDiscuss = async (req, res) => {
         console.log(err);
         res.status(500).json({
             message: 'не удалось получить обсуждения'
+        })
+
+    }
+}
+
+export const editDiscuss = async (req, res) => {
+    try {
+        const discussId = req.params.discussId;
+        const updatedDiscuss = await DiscussModel.findOneAndUpdate({
+            _id: discussId
+        }, {
+            title: req.body.title,
+            text: req.body.text,
+            imageUrl: req.body.imageUrl,
+            user: req.userId
+            },
+        );
+        if (!updatedDiscuss) {
+            return res.status(404).json({
+                message: 'обсуждение не найдено'
+            })
+        }
+        res.json({
+            success: true
+        })
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось обновить обсуждение'
+        })
+
+    }
+}
+
+export const deleteDiscuss = async (req, res) =>{
+    try {
+        const discussId = req.params.discussId;
+        const deletedDiscuss = await DiscussModel.findOneAndDelete({
+            _id: discussId
+        }).exec();
+
+        if (!deletedDiscuss) {
+            return res.status(404).json({
+                message: 'обсуждение не найдено'
+            })
+        }
+
+        res.json({
+            success: true
+        })
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось удалить обсуждение'
         })
 
     }

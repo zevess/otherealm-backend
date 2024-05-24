@@ -110,7 +110,7 @@ export const deletePost = async (req, res) =>{
             _id: postId
         }).exec();
 
-        if (!deletePost) {
+        if (!deletedPost) {
             return res.status(404).json({
                 message: 'пост не найден'
             })

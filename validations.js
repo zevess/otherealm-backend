@@ -14,7 +14,7 @@ export const registerValidation = [
 ]
 
 export const commentCreateValidation = [
-    body('postId', 'введите id страницы').isLength({min: 5}),
+    body('postId', 'введите id страницы').isLength({min: 5}).optional(),
     body('text', 'введите текст коммента').isLength({min: 3}).isString()
 ]
 

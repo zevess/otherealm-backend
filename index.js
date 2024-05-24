@@ -39,6 +39,8 @@ app.get('/auth/me', checkAuth, UserController.getMe);
 
 app.post('/comments', checkAuth, commentCreateValidation, handleValidationErrors, CommentContoller.createComment)
 app.get('/comments/:postId', CommentContoller.getComments)
+app.patch('/comments/:commentId', checkAuth, commentCreateValidation, handleValidationErrors, CommentContoller.editComment)
+app.delete('/comments/:commentId', checkAuth, CommentContoller.deleteComment)
 
 app.post('/upload', checkAuth, uploads.single('image'), (req, res) => {
     res.json({
@@ -62,8 +64,11 @@ app.patch('/post/:postId', checkAuth, handleValidationErrors, PostController.edi
 app.delete('/post/:postId', checkAuth, PostController.deletePost);
 
 app.post('/discuss', checkAuth, discussCreateValidation, handleValidationErrors, DiscuccController.createDiscuss);
-app.get('/discuss/:itemId/', DiscuccController.getDiscuss)
-app.get('/discuss/:itemId/:id', DiscuccController.getOneDiscuss)
+app.get('/discuss/:itemId', DiscuccController.getDiscuss)
+app.get('/discuss/:itemId/:discussId', DiscuccController.getOneDiscuss)
+app.patch('/discuss/:itemId/:discussId', checkAuth, handleValidationErrors, DiscuccController.editDiscuss);
+app.delete('/discuss/:itemId/:discussId', checkAuth,  DiscuccController.deleteDiscuss);
+
 
 app.post('/favourite', checkAuth, FavouriteController.createFavourite);
 app.get('/favourite', FavouriteController.getAllFavourites);

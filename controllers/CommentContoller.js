@@ -41,3 +41,55 @@ export const getComments = async(req,res) =>{
         })
     }
 }
+
+export const editComment = async(req, res) =>{
+    try {
+        const commentId = req.params.commentId;
+        const updatedComment = await CommentModel.findOneAndUpdate({
+            _id: commentId
+        }, {
+            text: req.body.text,
+            user: req.userId
+            },
+        );
+        if (!updatedComment) {
+            return res.status(404).json({
+                message: 'коммент не найден'
+            })
+        }
+        res.json(updatedComment)
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось обновить коммент'
+        })
+
+    }
+}
+
+export const deleteComment = async (req, res) =>{
+    try {
+        const commentId = req.params.commentId;
+        const deletedComment = await CommentModel.findOneAndDelete({
+            _id: commentId
+        }).exec();
+
+        if (!deletedComment) {
+            return res.status(404).json({
+                message: 'коммент не найден'
+            })
+        }
+
+        res.json({
+            success: true
+        })
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({
+            message: 'не удалось удалить коммент'
+        })
+
+    }
+}
