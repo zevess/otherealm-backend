@@ -13,6 +13,7 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch((err) => console.log("db err", err));
 
 const app = express();
+const port = process.env.PORT || 4000;
 
 const storage = multer.diskStorage({
     destination:(_, __, cb) =>{
@@ -81,7 +82,7 @@ app.patch('/favourite/remove/:id', checkAuth, FavouriteController.removeItemFrom
 
 
 
-app.listen(process.env.PORT || 4444, (err) => {
+app.listen(port, (err) => {
     if (err) {
         return console.log(err);
     }
