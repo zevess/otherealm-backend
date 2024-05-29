@@ -172,12 +172,6 @@ export const followUser = async (req, res) => {
     try {
 
         const userId = req.params.userId;
-        // const userToFollowId = req.body.userToFollowId
-
-        // const updatedFollowUsers = await UserModel.find({
-        //     _id: userToFollowId
-        // })
-
 
         const follow = {
             name: req.body.name,
@@ -204,11 +198,14 @@ export const followUser = async (req, res) => {
     }
 }
 
+
+
+
+
 export const unfollowUser = async (req, res) => {
     try {
 
         const userId = req.params.userId;
-        // const userToFollowId = req.body.userToFollowId
 
         const follow = {
             name: req.body.name,
@@ -259,14 +256,3 @@ export const userSearch = async (req, res) => {
         })
     }
 }
-
-// export const getFollowsUsers = async(req, res) =>{
-//     try{
-
-//     } catch(err){
-//         console.log(err);
-//         res.status(500).json({
-//             message: 'не удалось получить пользователей'
-//         })
-//     }
-// }

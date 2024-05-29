@@ -14,12 +14,12 @@ export const registerValidation = [
 ]
 
 export const commentCreateValidation = [
-    body('postId', 'введите id страницы').isLength({min: 5}).optional(),
+    body('postId', 'введите id страницы').isLength({min: 5}),
     body('text', 'введите текст коммента').isLength({min: 3}).isString()
 ]
 
 export const discussCreateValidation = [
-    body('title', 'введите заголовок обсуждения').isLength({min: 3}).isString(),
+    body('title', 'введите заголовок обсуждения').isLength({min: 5}).isString(),
     body('itemId', 'введите id страницы').isLength({min: 5}),
     body('text', 'введите текст обсуждения').isLength({min: 10}).isString(),
     body('imageUrl', 'неверная ссылка на изображение').optional().isString()

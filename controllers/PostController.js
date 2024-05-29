@@ -21,20 +21,29 @@ export const createPost = async (req, res) => {
     }
 }
 
+
+
 export const getPostsByUser = async (req, res) => {
     try {
+        const postsArr = []
+
         const userId = req.params.userId;
 
         const userPosts = await PostModel.find({
             user: userId
         }).populate('user').exec();
 
-        if (userPosts.length === 0) {
+        postsArr.push(...userPosts);
+
+        if (postsArr.length === 0) {
             return res.status(404).json({
-                message: "разделы не найдены"
+                message: "посты не найдены"
             })
         }
-        res.json(userPosts);
+
+        postsArr.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+        res.json(postsArr);
     } catch (err) {
         console.log(err);
         res.status(500).json({
@@ -134,13 +143,14 @@ export const getFollowsPosts = async (req, res) => {
         const feedArr = [];
 
         const userId = req.params.userId;
-
+        
         const followUserId = await UserModel.findById(userId);
+
         const promises =  followUserId.follows.map(async(item) => {
             const userPosts = await PostModel.find({
                 user: item
             }).populate('user').exec();
-            // res.json(userPosts);
+
             feedArr.push(...userPosts);
         })
 

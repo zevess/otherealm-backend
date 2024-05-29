@@ -29,6 +29,12 @@ export const createFavourite = async (req, res) => {
     }
 }
 
+
+
+
+
+
+
 export const updateFavourite = async (req, res) => {
     try {
         const favId = req.body.favId;
@@ -89,6 +95,15 @@ export const removeFavourite = async (req, res) => {
         })
     }
 }
+
+
+
+
+
+
+
+
+
 
 
 export const addItemToFavourite = async (req, res) => {
@@ -162,7 +177,7 @@ export const getFavourites = async (req, res) => {
 
 export const getAllFavourites = async (req, res) => {
     try {
-        // const userId = req.params.userId;
+        
         const favourites = await FavouriteModel.find().exec();
 
         if (favourites.length === 0) {

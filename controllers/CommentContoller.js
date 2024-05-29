@@ -19,6 +19,14 @@ export const createComment = async(req, res) =>{
     }
 }
 
+
+
+
+
+
+
+
+
 export const getComments = async(req,res) =>{
     try{
         const postId = req.params.postId;
@@ -41,6 +49,11 @@ export const getComments = async(req,res) =>{
         })
     }
 }
+
+
+
+
+
 
 export const editComment = async(req, res) =>{
     try {
@@ -67,6 +80,10 @@ export const editComment = async(req, res) =>{
 
     }
 }
+
+
+
+
 
 export const deleteComment = async (req, res) =>{
     try {

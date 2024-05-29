@@ -22,6 +22,17 @@ export const createDiscuss = async (req, res) => {
     }
 }
 
+
+
+
+
+
+
+
+
+
+
+
 export const getDiscuss = async (req, res) => {
     try {
         const itemId = req.params.itemId;
@@ -44,6 +55,22 @@ export const getDiscuss = async (req, res) => {
         })
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export const getOneDiscuss = async (req, res) => {
     try {

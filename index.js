@@ -6,7 +6,9 @@ import { checkAuth, handleValidationErrors } from './utils/index.js';
 import { CommentContoller, DiscuccController, FavouriteController, PostController, UserController } from './controllers/index.js';
 import multer from 'multer';
 
-mongoose.connect('mongodb+srv://admin:mTicEooXH4YI8fbG@otherealmdbcluster.inhudla.mongodb.net/data?retryWrites=true&w=majority&appName=otherealmDBCluster')
+
+//'mongodb+srv://admin:mTicEooXH4YI8fbG@otherealmdbcluster.inhudla.mongodb.net/data?retryWrites=true&w=majority&appName=otherealmDBCluster'
+mongoose.connect(process.env.MONGODB_URI)
     .then(() => console.log("db ok"))
     .catch((err) => console.log("db err", err));
 
@@ -66,9 +68,8 @@ app.delete('/post/:postId', checkAuth, PostController.deletePost);
 app.post('/discuss', checkAuth, discussCreateValidation, handleValidationErrors, DiscuccController.createDiscuss);
 app.get('/discuss/:itemId', DiscuccController.getDiscuss)
 app.get('/discuss/:itemId/:discussId', DiscuccController.getOneDiscuss)
-app.patch('/discuss/:itemId/:discussId', checkAuth, handleValidationErrors, DiscuccController.editDiscuss);
+app.patch('/discuss/:itemId/:discussId', checkAuth, discussCreateValidation, handleValidationErrors, DiscuccController.editDiscuss);
 app.delete('/discuss/:itemId/:discussId', checkAuth,  DiscuccController.deleteDiscuss);
-
 
 app.post('/favourite', checkAuth, FavouriteController.createFavourite);
 app.get('/favourite', FavouriteController.getAllFavourites);
@@ -80,7 +81,7 @@ app.patch('/favourite/remove/:id', checkAuth, FavouriteController.removeItemFrom
 
 
 
-app.listen(4444, (err) => {
+app.listen(process.env.PORT || 4444, (err) => {
     if (err) {
         return console.log(err);
     }
