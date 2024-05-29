@@ -8,12 +8,12 @@ import multer from 'multer';
 
 
 //'mongodb+srv://admin:mTicEooXH4YI8fbG@otherealmdbcluster.inhudla.mongodb.net/data?retryWrites=true&w=majority&appName=otherealmDBCluster'
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(import.meta.env.MONGODB_CONNECT_URI)
     .then(() => console.log("db ok"))
     .catch((err) => console.log("db err", err));
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = import.meta.env.PORT || 4000;
 
 const storage = multer.diskStorage({
     destination:(_, __, cb) =>{
@@ -79,8 +79,6 @@ app.delete('/favourite/remove/:favId', FavouriteController.removeFavourite);
 app.get('/favourite/:userId', FavouriteController.getFavourites);
 app.patch('/favourite/add/:id', checkAuth, FavouriteController.addItemToFavourite);
 app.patch('/favourite/remove/:id', checkAuth, FavouriteController.removeItemFromFavourite);
-
-
 
 app.listen(port, (err) => {
     if (err) {
