@@ -8,7 +8,7 @@ import multer from 'multer';
 
 
 //'mongodb+srv://admin:mTicEooXH4YI8fbG@otherealmdbcluster.inhudla.mongodb.net/data?retryWrites=true&w=majority&appName=otherealmDBCluster'
-mongoose.connect(import.meta.env.MONGODB_CONNECT_URI)
+mongoose.connect(process.env.MONGODB_CONNECT_URI)
     .then(() => console.log("db ok"))
     .catch((err) => console.log("db err", err));
 
