@@ -1,4 +1,5 @@
 import express from 'express'
+import dotenv from 'dotenv'
 import mongoose from 'mongoose';
 import cors from 'cors'
 import { commentCreateValidation, discussCreateValidation, loginValidation, postCreateValidation, registerValidation } from './validations.js';
@@ -7,8 +8,10 @@ import { CommentContoller, DiscuccController, FavouriteController, PostControlle
 import multer from 'multer';
 
 
-//'mongodb+srv://admin:mTicEooXH4YI8fbG@otherealmdbcluster.inhudla.mongodb.net/data?retryWrites=true&w=majority&appName=otherealmDBCluster'
-mongoose.connect(process.env.MONGODB_CONNECT_URI)
+dotenv.config();
+const uri = process.env.MONGODB_CONNECT_URI
+
+mongoose.connect(uri)
     .then(() => console.log("db ok"))
     .catch((err) => console.log("db err", err));
 
