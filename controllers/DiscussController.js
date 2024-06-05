@@ -9,9 +9,7 @@ export const createDiscuss = async (req, res) => {
             itemId: req.body.itemId,
             user: req.userId
         })
-
         const discuss = await doc.save();
-
         res.json(discuss)
 
     } catch (err) {
@@ -21,16 +19,6 @@ export const createDiscuss = async (req, res) => {
         })
     }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 export const getDiscuss = async (req, res) => {
@@ -55,20 +43,6 @@ export const getDiscuss = async (req, res) => {
         })
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

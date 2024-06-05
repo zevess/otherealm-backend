@@ -16,7 +16,7 @@ mongoose.connect(uri)
     .catch((err) => console.log("db err", err));
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 8000;
 
 const storage = multer.diskStorage({
     destination:(_, __, cb) =>{
