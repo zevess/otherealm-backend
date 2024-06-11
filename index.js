@@ -6,6 +6,7 @@ import { commentCreateValidation, discussCreateValidation, loginValidation, post
 import { checkAuth, handleValidationErrors } from './utils/index.js';
 import { CommentContoller, DiscuccController, FavouriteController, PostController, UserController } from './controllers/index.js';
 import multer from 'multer';
+import axios from 'axios';
 
 
 dotenv.config();
@@ -18,17 +19,7 @@ mongoose.connect(uri)
 const app = express();
 const port = process.env.PORT || 8000;
 
-const storage = multer.diskStorage({
-    destination:(_, __, cb) =>{
-        cb(null, 'uploads')
-    },
-    filename: (_, file, cb) =>{
-        file.originalname = Buffer.from(file.originalname, 'latin1').toString('utf-8');
-        cb(null, file.originalname)
-    }
-})
-
-const uploads = multer({storage})
+const uploads = multer({storage: multer.memoryStorage()})
 
 app.use(express.json());
 app.use(cors());
@@ -48,10 +39,24 @@ app.get('/comments/:postId', CommentContoller.getComments)
 app.patch('/comments/:commentId', checkAuth, commentCreateValidation, handleValidationErrors, CommentContoller.editComment)
 app.delete('/comments/:commentId', checkAuth, CommentContoller.deleteComment)
 
-app.post('/upload', checkAuth, uploads.single('image'), (req, res) => {
-    res.json({
-        url: `/uploads/${req.file.originalname}`
-    })
+app.post('/upload', checkAuth, uploads.single('image'), async(req, res) => {
+    try{
+        const formData = new FormData();
+        formData.append('image', req.file.buffer.toString('base64'));
+        const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            params: {
+                key: '83135d26e27475f43f33d76d9865e21a'
+            }
+        })
+        res.json(response.data)
+
+    } catch(err){
+        console.error('Error uploading to imgbb:', err);
+        res.status(500).json({ error: 'Error uploading to imgbb' });
+    }
 })
 
 app.patch('/profile/avatar/:userId', checkAuth, UserController.updateAvatar)
