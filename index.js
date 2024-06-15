@@ -11,6 +11,7 @@ import axios from 'axios';
 
 dotenv.config();
 const uri = process.env.MONGODB_CONNECT_URI
+const imgbbUri = process.env.IMGBB_CONNECT_URI
 
 mongoose.connect(uri)
     .then(() => console.log("db ok"))
@@ -43,14 +44,20 @@ app.post('/upload', checkAuth, uploads.single('image'), async(req, res) => {
     try{
         const formData = new FormData();
         formData.append('image', req.file.buffer.toString('base64'));
-        const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            params: {
-                key: '83135d26e27475f43f33d76d9865e21a'
+        
+        const response = await axios.post(imgbbUri, formData, {
+            headers:{
+                'Content-Type': 'multipart/form-data'
             }
         })
+        // const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //     },
+        //     params: {
+        //         key: '83135d26e27475f43f33d76d9865e21a'
+        //     }
+        // })
         res.json(response.data)
 
     } catch(err){
