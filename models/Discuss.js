@@ -22,6 +22,10 @@ const DiscussSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    itemTag: {
+        type: String,
+        required: true
+    },
 }, {
     timestamps: true
 })

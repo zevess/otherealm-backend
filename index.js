@@ -37,6 +37,7 @@ app.get('/auth/me', checkAuth, UserController.getMe);
 
 app.post('/comments', checkAuth, commentCreateValidation, handleValidationErrors, CommentContoller.createComment)
 app.get('/comments/:postId', CommentContoller.getComments)
+app.get('/comments', CommentContoller.getAllComments)
 app.patch('/comments/:commentId', checkAuth, commentCreateValidation, handleValidationErrors, CommentContoller.editComment)
 app.delete('/comments/:commentId', checkAuth, CommentContoller.deleteComment)
 
@@ -50,14 +51,6 @@ app.post('/upload', checkAuth, uploads.single('image'), async(req, res) => {
                 'Content-Type': 'multipart/form-data'
             }
         })
-        // const response = await axios.post('https://api.imgbb.com/1/upload', formData, {
-        //     headers: {
-        //         'Content-Type': 'multipart/form-data',
-        //     },
-        //     params: {
-        //         key: '83135d26e27475f43f33d76d9865e21a'
-        //     }
-        // })
         res.json(response.data)
 
     } catch(err){
@@ -77,12 +70,14 @@ app.get('/posts/feed/:userId', checkAuth, PostController.getFollowsPosts);
 
 app.post('/posts', checkAuth, postCreateValidation, handleValidationErrors, PostController.createPost);
 app.get('/posts/:userId', PostController.getPostsByUser);
+app.get('/posts', PostController.getAllPosts);
 app.get('/post/:postId', PostController.getOnePost);
 app.patch('/post/:postId', checkAuth, handleValidationErrors, PostController.editPost);
 app.delete('/post/:postId', checkAuth, PostController.deletePost);
 
 app.post('/discuss', checkAuth, discussCreateValidation, handleValidationErrors, DiscuccController.createDiscuss);
 app.get('/discuss/:itemId', DiscuccController.getDiscuss)
+app.get('/discuss', DiscuccController.getAllDiscuss)
 app.get('/discuss/:itemId/:discussId', DiscuccController.getOneDiscuss)
 app.patch('/discuss/:itemId/:discussId', checkAuth, discussCreateValidation, handleValidationErrors, DiscuccController.editDiscuss);
 app.delete('/discuss/:itemId/:discussId', checkAuth,  DiscuccController.deleteDiscuss);
